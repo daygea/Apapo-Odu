@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apapo Odu Ifa Initiates</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Apapo Odu Ifa Initiates</h1>
+
+        <!-- Login Section -->
+        <div id="loginSection">
+            <h3><center>Login to view your Odu Ifa</center></h3>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" class="form-control" placeholder="Enter Username" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Enter Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            <div id="loginMessage" class="mt-2"></div>
+        </div>
+
+        <!-- Logged-In User Section -->
+        <div id="userSection" class="hidden">
+            <h3>Initiate Details</h3>
+            <p><strong>Name:</strong> <span id="userUsername"></span> Omo <span id="userPassword"></span></p>
+            <p><strong>Odu Ifa:</strong> <span id="userStatus"></span></p>
+            <button onclick="logout()" class="btn btn-warning">Logout</button>
+        </div>
+
+        <!-- Administrator Section -->
+        <div id="adminSection" class="hidden">
+            
+           <!--  <h4>Add New Account</h4>
+            <form onsubmit="addNewAccount(event)">
+                <div class="form-group">
+                    <label for="newUsername">Name</label>
+                    <input type="text" id="newUsername" class="form-control" placeholder="Enter Username" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Mother's Name</label>
+                    <input type="password" id="newPassword" class="form-control" placeholder="Enter Password" required>
+                </div>
+                <div class="form-group">
+                    <label for="newStatus">Odu Ifa</label>
+                    <textarea id="newStatus" class="form-control" placeholder="Enter Status" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success btn-block">Add Initiate</button>
+            </form> -->
+
+            <h3>Administrator Dashboard</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Name</th>
+                        <th>Mothers Name</th>
+                        <th>Odu Ifa</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody"></tbody>
+            </table>
+            <button onclick="logout()" class="btn btn-warning">Logout</button>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="initiates.js"></script>
+    <script>
+
+        let currentUser = null;
+
+        // Login function
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const username = document.getElementById("loginUsername").value.trim();
+            const password = document.getElementById("loginPassword").value.trim();
+            const loginMessage = document.getElementById("loginMessage");
+
+            if (users[username] && users[username].password === password) {
+                currentUser = { username, ...users[username] };
+                if (username === "admin") {
+                    showAdminDashboard();
+                } else {
+                    showUserDetails();
+                }
+            } else {
+                loginMessage.textContent = "Invalid username or password.";
+                loginMessage.className = "text-danger";
+            }
+
+            document.getElementById("loginUsername").value = "";
+            document.getElementById("loginPassword").value = "";
+        }
+
+        // Show user details
+        function showUserDetails() {
+            document.getElementById("loginSection").classList.add("hidden");
+            document.getElementById("userSection").classList.remove("hidden");
+
+            document.getElementById("userUsername").textContent = currentUser.username;
+            document.getElementById("userPassword").textContent = currentUser.password;
+            document.getElementById("userStatus").textContent = currentUser.status;
+        }
+
+        // Show administrator dashboard
+        function showAdminDashboard() {
+            document.getElementById("loginSection").classList.add("hidden");
+            document.getElementById("adminSection").classList.remove("hidden");
+
+            updateUserTable();
+        }
+
+        // Update user table in administrator dashboard
+        function updateUserTable() {
+            const userTableBody = document.getElementById("userTableBody");
+            userTableBody.innerHTML = "";
+
+            let serialNumber = 1; // Initialize serial number
+
+            for (const [username, userDetails] of Object.entries(users)) {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${serialNumber}</td> <!-- Add serial number -->
+                    <td>${username}</td>
+                    <td>${userDetails.password}</td>
+                    <td>${userDetails.status}</td>
+                `;
+                userTableBody.appendChild(row);
+
+                serialNumber++; // Increment serial number for each user
+            }
+        }
+
+        // Add a new account
+        function addNewAccount(event) {
+            event.preventDefault();
+
+            const username = document.getElementById("newUsername").value.trim();
+            const password = document.getElementById("newPassword").value.trim();
+            const status = document.getElementById("newStatus").value.trim();
+
+            if (users[username]) {
+                alert("Username already exists. Please choose a different username.");
+                return;
+            }
+
+            users[username] = { password, status };
+            alert("Account created successfully!");
+
+            document.getElementById("newUsername").value = "";
+            document.getElementById("newPassword").value = "";
+            document.getElementById("newStatus").value = "";
+
+            updateUserTable();
+        }
+
+        // Logout function
+        function logout() {
+            currentUser = null;
+            document.getElementById("loginSection").classList.remove("hidden");
+            document.getElementById("userSection").classList.add("hidden");
+            document.getElementById("adminSection").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+// Initiates database object
+        const users = {
+            admin: {password: "admin", status: "Apapo Odu Cultural Organization" },
+            adedeji: {password: "mother", status: "Osa Owonrin, Ire Aiku, Adimu Eegun"},
+            initiate1: {password: "mother", status: "Ejiogbe , Ire Aje, Adimu Eegun"},
+            initiate2: {password: "mother", status: "Oyeku Meji, , Ire Isegun, Adimu Eegun"},
+            initiate3: {password: "mother", status: "Iwori Meji, Ire Igbalese, Adimu Eegun"},
+            initiate4: {password: "mother", status: "Idi Meji, Gbogbo Ire, Adimu Eegun"},
+            initiate5: {password: "mother", status: "Irosun Meji, Ayewo Iku, Adimu Eegun"},
+            initiate6: {password: "mother", status: "Owonrin Meji, Ayewo Arun, Adimu Eegun"},
+            initiate7: {password: "mother", status: "Obara Meji, Ayewo Ejo, Adimu Eegun"},
+            initiate8: {password: "mother", status: "Okanran Meji, Ayewo Ofo, Adimu Eegun"},
+            initiate9: {password: "mother", status: "Ogunda Meji, Ayewo Okutagbunilese, Adimu Eegun"},
+            initiate10: {password: "mother", status: "Osa Meji, Ire Aiku, Adimu Osha"},
+            initiate11: {password: "mother", status: "Ika Meji, Ire Aiku, Adimu Ifa"},
+            initiate12: {password: "mother", status: "Oturupon Meji, Ire Aiku, Adimu Ori"},
+            initiate13: {password: "mother", status: "Otura Meji, Ire Aje, Ebo Akoru"},
+            initiate14: {password: "mother", status: "Irete Meji, Ire Aiku, Ebo Esa"},
+            initiate15: {password: "mother", status: "Ose Meji, Ire Isegun, Ebo Akoru"},
+            initiate16: {password: "mother", status: "Ofun Meji, Ire Aiku, Adimu Ifa"},
+        };
