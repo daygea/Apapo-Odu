@@ -6,6 +6,6 @@ Password: admin
 You can login as an initiate with the credentials below:
 Username: adedeji
 Password: mother
-----------------------------------------------------------------------------------------------------------------------
+
 Credit: Adedeji Kadri and all the listed contributors
 1.	Apapo Odu Cultural Organization.
