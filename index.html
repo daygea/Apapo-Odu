@@ -64,6 +64,7 @@
             </form> -->
 
             <h3>Administrator Dashboard</h3>
+            <button onclick="logout()" class="btn btn-warning">Logout</button>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -75,7 +76,7 @@
                 </thead>
                 <tbody id="userTableBody"></tbody>
             </table>
-            <button onclick="logout()" class="btn btn-warning">Logout</button>
+            
         </div>
     </div>
 
@@ -84,7 +85,7 @@
 
         let currentUser = null;
 
-        // Login function
+      // Login function
         function handleLogin(event) {
             event.preventDefault();
 
@@ -92,9 +93,15 @@
             const password = document.getElementById("loginPassword").value.trim();
             const loginMessage = document.getElementById("loginMessage");
 
-            if (users[username] && users[username].password === password) {
-                currentUser = { username, ...users[username] };
-                if (username === "admin") {
+            // Convert username to lowercase for case-insensitive comparison
+            const lowercaseUsername = username.toLowerCase();
+
+            // Check if the lowercase username exists in the users object
+            const userKey = Object.keys(users).find(key => key.toLowerCase() === lowercaseUsername);
+
+            if (userKey && users[userKey].password === password) {
+                currentUser = { username: userKey, ...users[userKey] };
+                if (userKey.toLowerCase() === "admin") {
                     showAdminDashboard();
                 } else {
                     showUserDetails();
@@ -107,6 +114,7 @@
             document.getElementById("loginUsername").value = "";
             document.getElementById("loginPassword").value = "";
         }
+
 
         // Show user details
         function showUserDetails() {
