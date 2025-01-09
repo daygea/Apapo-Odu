@@ -1,16 +1,22 @@
 {
     "admin": {
         "password": "admin",
-        "status": "Apapo Odu Cultural Organization"
+        "status": "Apapo Odu Cultural Organization",
+        "ikita": "",
+        "orukoOrisha":""
     },
 
     "abiodun": {
         "password": "fausat",
-        "status": "<b>Odu Ifa</b> - Ejiogbe, Ire Isegun, Adimu Ifa - <b>Ikita Ifa</b> - Irosun Irete, Ire Aje, Ebo Akoru - <b>Oruko Orisha</b> - Osunyinka"
+        "status": "Ejiogbe, Ire Isegun, Adimu Ifa",
+        "ikita": "Irosun Irete, Ire Aje, Ebo Akoru",
+        "orukoOrisha":"Osunyinka"
     },
 
     "hafusatu": {
         "password": "sidikat",
-        "status": "<b>Odu Ifa</b> - Ogbe Irete, Ire Aje, Ebo Akoru - <b>Ikita Ifa</b> - Ejiogbe, Ire Igbala ese, Adimu Ifa - <b>Oruko Orisha</b> - Osunyemi"
+        "status": "Ogbe Irete, Ire Aje, Ebo Akoru",
+        "ikita": "Ejiogbe, Ire Igbala ese, Adimu Ifa",
+        "orukoOrisha":"Osunyemi"
     }
 }
