@@ -80,13 +80,33 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="initiates.js"></script>
+    <!-- <script type="text/javascript" src="initiates.js"></script> -->
     <script>
 
         let currentUser = null;
         let currentPage = 1; // Current page
         const usersPerPage = 10; // Number of users to display per page
         let filteredUsers = []; // Stores filtered users after search
+
+        let users = {};
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Load users data from JSON
+            fetch("initiates.json")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to load users data");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    users = data;
+                    console.log("Users data loaded successfully:", users);
+                })
+                .catch(error => {
+                    console.error("Error loading users data:", error);
+                });
+        });
 
       // Login function
         function handleLogin(event) {
