@@ -220,7 +220,10 @@
                 filteredUsers = Object.entries(users).filter(([username, userDetails]) => {
                     return (
                         username.toLowerCase().includes(searchInput) ||
-                        userDetails.password.toLowerCase().includes(searchInput)
+                        userDetails.password.toLowerCase().includes(searchInput) ||
+                        userDetails.status.toLowerCase().includes(searchInput) ||
+                        userDetails.ikita.toLowerCase().includes(searchInput)||
+                        userDetails.orukoOrisha.toLowerCase().includes(searchInput)
                     );
                 });
             }
