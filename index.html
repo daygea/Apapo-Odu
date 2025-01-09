@@ -12,6 +12,18 @@
         .hidden {
             display: none;
         }
+        #userSection {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+            text-align: center;
+        }
+        .logout-btn {
+            float: right; /* Moves the button to the right */
+            margin-bottom: 10px; /* Adds spacing between the button and other elements */
+        }
     </style>
 </head>
 <body>
@@ -38,33 +50,19 @@
         <!-- Logged-In User Section -->
         <div id="userSection" class="hidden">
             <h3>Initiate Details</h3>
-            <p><strong>Name:</strong> <span id="userUsername"></span> Omo <span id="userPassword"></span></p>
-            <p><strong>Odu Ifa:</strong> <span id="userStatus"></span></p>
+            <p><strong>Name:</strong> <span id="userUsername" style="text-transform: capitalize;"></span> Omo <span id="userPassword" style="text-transform: capitalize;"></span></p>
+            <p><strong>Odu Ifa:</strong> <span id="userStatus" style="text-transform: capitalize;"></span></p>
             <button onclick="logout()" class="btn btn-warning">Logout</button>
         </div>
 
         <!-- Administrator Section -->
         <div id="adminSection" class="hidden">
-            
-           <!--  <h4>Add New Account</h4>
-            <form onsubmit="addNewAccount(event)">
-                <div class="form-group">
-                    <label for="newUsername">Name</label>
-                    <input type="text" id="newUsername" class="form-control" placeholder="Enter Username" required>
-                </div>
-                <div class="form-group">
-                    <label for="newPassword">Mother's Name</label>
-                    <input type="password" id="newPassword" class="form-control" placeholder="Enter Password" required>
-                </div>
-                <div class="form-group">
-                    <label for="newStatus">Odu Ifa</label>
-                    <textarea id="newStatus" class="form-control" placeholder="Enter Status" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-success btn-block">Add Initiate</button>
-            </form> -->
 
             <h3>Administrator Dashboard</h3>
-            <button onclick="logout()" class="btn btn-warning">Logout</button>
+            <button onclick="logout()" class="btn btn-warning logout-btn">Logout</button>
+            <div class="form-group">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search by name or mother's name" oninput="handleSearch()">
+            </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -76,7 +74,9 @@
                 </thead>
                 <tbody id="userTableBody"></tbody>
             </table>
-            
+            <!-- Pagination Controls -->
+            <div id="paginationControls" class="text-center mt-3"></div>
+
         </div>
     </div>
 
@@ -84,11 +84,13 @@
     <script>
 
         let currentUser = null;
+        let currentPage = 1; // Current page
+        const usersPerPage = 10; // Number of users to display per page
+        let filteredUsers = []; // Stores filtered users after search
 
       // Login function
         function handleLogin(event) {
             event.preventDefault();
-
             const username = document.getElementById("loginUsername").value.trim();
             const password = document.getElementById("loginPassword").value.trim();
             const loginMessage = document.getElementById("loginMessage");
@@ -134,25 +136,69 @@
             updateUserTable();
         }
 
-        // Update user table in administrator dashboard
+        // Update the user table with pagination
         function updateUserTable() {
             const userTableBody = document.getElementById("userTableBody");
-            userTableBody.innerHTML = "";
+            const paginationControls = document.getElementById("paginationControls");
 
-            let serialNumber = 1; // Initialize serial number
+            userTableBody.innerHTML = ""; // Clear table content
+            paginationControls.innerHTML = ""; // Clear pagination controls
 
-            for (const [username, userDetails] of Object.entries(users)) {
+            // Use filteredUsers for displaying results, or all users if no search filter
+            const userEntries = filteredUsers.length > 0 ? filteredUsers : Object.entries(users);
+            const totalUsers = userEntries.length;
+            const totalPages = Math.ceil(totalUsers / usersPerPage);
+
+            // Ensure currentPage is within valid bounds
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            // Determine the users to display on the current page
+            const startIndex = (currentPage - 1) * usersPerPage;
+            const endIndex = Math.min(startIndex + usersPerPage, totalUsers);
+
+            for (let i = startIndex; i < endIndex; i++) {
+                const [username, userDetails] = userEntries[i];
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${serialNumber}</td> <!-- Add serial number -->
+                    <td>${i + 1}</td>
                     <td>${username}</td>
                     <td>${userDetails.password}</td>
                     <td>${userDetails.status}</td>
                 `;
                 userTableBody.appendChild(row);
-
-                serialNumber++; // Increment serial number for each user
             }
+
+            // Create pagination controls
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement("button");
+                pageButton.textContent = i;
+                pageButton.className = `btn btn-sm ${i === currentPage ? "btn-primary" : "btn-default"} mx-1`;
+                pageButton.onclick = () => {
+                    currentPage = i;
+                    updateUserTable();
+                };
+                paginationControls.appendChild(pageButton);
+            }
+        }
+
+        // Handle search functionality
+        function handleSearch() {
+            const searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
+
+            if (searchInput === "") {
+                filteredUsers = []; // Clear the filter if the search box is empty
+            } else {
+                filteredUsers = Object.entries(users).filter(([username, userDetails]) => {
+                    return (
+                        username.toLowerCase().includes(searchInput) ||
+                        userDetails.password.toLowerCase().includes(searchInput)
+                    );
+                });
+            }
+
+            currentPage = 1; // Reset to the first page of filtered results
+            updateUserTable();
         }
 
         // Add a new account
