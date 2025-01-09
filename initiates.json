@@ -3,12 +3,14 @@
         "password": "admin",
         "status": "Apapo Odu Cultural Organization"
     },
-    "adedeji": {
-        "password": "mother",
-        "status": "Osa Owonrin, Ire Aiku, Adimu Eegun"
+
+    "abiodun": {
+        "password": "fausat",
+        "status": "Ejiogbe, Ire Isegun, Adimu Ifa - Ikita Ifa: Irosun Irete, Ire Aje, Ebo Akoru - Oruko Orisha: Osunyinka"
     },
-    "initiateName1": {
-        "password": "mother",
-        "status": "Ejiogbe , Ire Aje, Adimu Eegun"
-    }
+
+    "hafusatu": {
+        "password": "sidikat",
+        "status": "Ogbe Irete, Ire Aje, Ebo Akoru - Ikita Ifa: Ejiogbe, Ire Igbala ese, Adimu Ifa - Oruko Orisha: Osunyemi"
+    },
 }
