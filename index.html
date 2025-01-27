@@ -59,9 +59,9 @@
         <div id="userSection" class="hidden">
             <h3>Initiate Details</h3>
             <p><strong>Name:</strong> <span id="userUsername" style="text-transform: capitalize;"></span> Omo <span id="userPassword" style="text-transform: capitalize;"></span></p>
-            <p><b>Odu Ifa: </b><span id="userStatus" style="text-transform: capitalize;"></span> </p>
-            <p><b>Ikita Ifa: </b><span id="userIkita" style="text-transform: capitalize;"></span></p>
-            <p><b>Oruko Orisha: </b><span id="userOrukoOrisha" style="text-transform: capitalize;"></span></p>
+            <p><b>Odu Ifa: </b><span id="userStatus" style="text-transform: uppercase;"></span> </p>
+            <p><b>Ikita Ifa: </b><span id="userIkita" style="text-transform: uppercase;"></span></p>
+            <p><b>Oruko Orisha: </b><span id="userOrukoOrisha" style="text-transform: uppercase;"></span></p>
             <a class="btn btn-default" target="_blank" href="https://daygea.github.io/Nature/">View the full message here</a><br/><br/>
             <button onclick="logout()" class="btn btn-warning">Logout</button>
         </div>
@@ -98,7 +98,7 @@
 
         let currentUser = null;
         let currentPage = 1; // Current page
-        const usersPerPage = 10; // Number of users to display per page
+        const usersPerPage = 20; // Number of users to display per page
         let filteredUsers = []; // Stores filtered users after search
 
         let users = {};
@@ -197,11 +197,11 @@
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${i + 1}</td>
-                    <td style="text-transform: capitalize;">${username}</td>
-                    <td style="text-transform: capitalize;">${userDetails.password}</td>
-                    <td >${userDetails.status}</td>
-                    <td>${userDetails.ikita}</td>
-                    <td>${userDetails.orukoOrisha}</td>
+                    <td style="">${username}</td>
+                    <td style="">${userDetails.password}</td>
+                    <td style="text-transform: uppercase;">${userDetails.status}</td>
+                    <td style="text-transform: uppercase;">${userDetails.ikita}</td>
+                    <td style="text-transform: uppercase;">${userDetails.orukoOrisha}</td>
                 `;
                 userTableBody.appendChild(row);
             }
