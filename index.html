@@ -121,76 +121,63 @@
                 });
         });
 
-      // Login function
+      //Login function
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById("loginUsername").value.trim();
+            const password = document.getElementById("loginPassword").value.trim();
+            const loginMessage = document.getElementById("loginMessage");
+
+            // Convert username to lowercase for case-insensitive comparison
+            const lowercaseUsername = username.toLowerCase();
+
+            // Check if the lowercase username exists in the users object
+            const userKey = Object.keys(users).find(key => key.toLowerCase() === lowercaseUsername);
+
+            if (userKey && users[userKey].password === password) {
+                currentUser = { username: userKey, ...users[userKey] };
+                if (userKey.toLowerCase() === "admin") {
+                    showAdminDashboard();
+                } else {
+                    showUserDetails();
+                }
+            } else {
+                loginMessage.textContent = "Invalid username or password.";
+                loginMessage.className = "text-danger";
+            }
+
+            document.getElementById("loginUsername").value = "";
+            document.getElementById("loginPassword").value = "";
+        }
+
         // function handleLogin(event) {
         //     event.preventDefault();
         //     const username = document.getElementById("loginUsername").value.trim();
         //     const password = document.getElementById("loginPassword").value.trim();
         //     const loginMessage = document.getElementById("loginMessage");
 
-        //     // Convert username to lowercase for case-insensitive comparison
-        //     const lowercaseUsername = username.toLowerCase();
+        //     // Find the user with matching username and password
+        //     const user = users.find(user => user.username.toLowerCase() === username.toLowerCase() && user.password === password);
 
-        //     // Check if the lowercase username exists in the users object
-        //     const userKey = Object.keys(users).find(key => key.toLowerCase() === lowercaseUsername);
-
-        //     if (userKey && users[userKey].password === password) {
-        //         currentUser = { username: userKey, ...users[userKey] };
-        //         if (userKey.toLowerCase() === "admin") {
+        //     if (user) {
+        //         // Login successful
+        //         currentUser = user;
+        //         if (user.username.toLowerCase() === "admin") {
         //             showAdminDashboard();
         //         } else {
         //             showUserDetails();
         //         }
         //     } else {
+        //         // Login failed
         //         loginMessage.textContent = "Invalid username or password.";
         //         loginMessage.className = "text-danger";
         //     }
 
+        //     // Clear login fields
         //     document.getElementById("loginUsername").value = "";
         //     document.getElementById("loginPassword").value = "";
         // }
 
-      function handleLogin(event) {
-            event.preventDefault();
-            const username = document.getElementById("loginUsername").value.trim();
-            const password = document.getElementById("loginPassword").value.trim();
-            const loginMessage = document.getElementById("loginMessage");
-
-            // Find the user by checking for a case-insensitive username match
-            const userEntry = Object.entries(users).find(([key, userDetails]) => {
-                return key.toLowerCase() == username.toLowerCase() && userDetails.password == password;
-            });
-
-            if (userEntry) {
-                // Login successful
-                currentUser = { username: userEntry[0], ...userEntry[1] };
-                if (userEntry[0].toLowerCase() === "admin") {
-                    showAdminDashboard();
-                } else {
-                    showUserDetails();
-                }
-            } else {
-                // Login failed
-                loginMessage.textContent = "Invalid username or password.";
-                loginMessage.className = "text-danger";
-            }
-
-            // Clear login fields
-            document.getElementById("loginUsername").value = "";
-            document.getElementById("loginPassword").value = "";
-        }
-
-        // Show user details
-        function showUserDetails() {
-            document.getElementById("loginSection").classList.add("hidden");
-            document.getElementById("userSection").classList.remove("hidden");
-
-            document.getElementById("userUsername").textContent = currentUser.username;
-            document.getElementById("userPassword").textContent = currentUser.password;
-            document.getElementById("userStatus").textContent = currentUser.status;
-            document.getElementById("userIkita").textContent = currentUser.ikita;
-            document.getElementById("userOrukoOrisha").textContent = currentUser.orukoOrisha;
-        }
 
         // Show administrator dashboard
         function showAdminDashboard() {
