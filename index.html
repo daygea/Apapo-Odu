@@ -153,7 +153,7 @@
                 matchingUsers.forEach(user => {
                     const option = document.createElement("button");
                     option.className = "btn btn-danger btn-md my-1";
-                    option.textContent = `${user.status} (${user.orukoOrisha})`; // Display details to help user identify
+                    option.textContent = `Odu Ifa - ${user.status}, Oruko Orisha - (${user.orukoOrisha})`; // Display details to help user identify
                     option.onclick = () => {
                         currentUser = user;
                         if (user.username.toLowerCase() === "admin") {
