@@ -55,6 +55,8 @@
             <div id="loginMessage" class="mt-2"></div>
         </div>
 
+        <div id="profileSelection" class="mt-3"></div>
+
         <!-- Logged-In User Section -->
         <div id="userSection" class="hidden">
             <h3>INITIATE DETAILS</h3>
@@ -128,21 +130,42 @@
             const password = document.getElementById("loginPassword").value.trim();
             const loginMessage = document.getElementById("loginMessage");
 
-            // Find user in the array
-            const user = users.find(
+            // Find all users with the matching username and password
+            const matchingUsers = users.filter(
                 user => user.username.toLowerCase() === username.toLowerCase() && user.password === password
             );
 
-            if (user) {
-                // Login successful
-                currentUser = user;
-                if (user.username.toLowerCase() === "admin") {
+            if (matchingUsers.length === 1) {
+                // If exactly one match is found, login directly
+                currentUser = matchingUsers[0];
+                if (currentUser.username.toLowerCase() === "admin") {
                     showAdminDashboard();
                 } else {
                     showUserDetails();
                 }
+            } else if (matchingUsers.length > 1) {
+                // If multiple matches are found, prompt user to choose
+                loginMessage.textContent = "Multiple accounts found. Please select your profile.";
+                loginMessage.className = "text-warning";
+
+                const profileSelection = document.getElementById("profileSelection");
+                profileSelection.innerHTML = ""; // Clear any previous options
+                matchingUsers.forEach(user => {
+                    const option = document.createElement("button");
+                    option.className = "btn btn-secondary btn-sm my-1";
+                    option.textContent = `${user.status} (${user.orukoOrisha})`; // Display details to help user identify
+                    option.onclick = () => {
+                        currentUser = user;
+                        if (user.username.toLowerCase() === "admin") {
+                            showAdminDashboard();
+                        } else {
+                            showUserDetails();
+                        }
+                    };
+                    profileSelection.appendChild(option);
+                });
             } else {
-                // Login failed
+                // If no match is found
                 loginMessage.textContent = "Invalid username or password.";
                 loginMessage.className = "text-danger";
             }
@@ -150,6 +173,7 @@
             document.getElementById("loginUsername").value = "";
             document.getElementById("loginPassword").value = "";
         }
+
 
 
 
