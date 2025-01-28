@@ -101,7 +101,7 @@
         const usersPerPage = 20; // Number of users to display per page
         let filteredUsers = []; // Stores filtered users after search
 
-        let users = {};
+        let users = [];
 
         document.addEventListener("DOMContentLoaded", () => {
             // Load users data from JSON
@@ -113,7 +113,7 @@
                     return response.json();
                 })
                 .then(data => {
-                    users = data;
+                    users = data; // Assume the JSON is now an array
                     console.log("Users data loaded successfully:", users);
                 })
                 .catch(error => {
@@ -128,20 +128,21 @@
             const password = document.getElementById("loginPassword").value.trim();
             const loginMessage = document.getElementById("loginMessage");
 
-            // Convert username to lowercase for case-insensitive comparison
-            const lowercaseUsername = username.toLowerCase();
+            // Find user in the array
+            const user = users.find(
+                user => user.username.toLowerCase() === username.toLowerCase() && user.password === password
+            );
 
-            // Check if the lowercase username exists in the users object
-            const userKey = Object.keys(users).find(key => key.toLowerCase() === lowercaseUsername);
-
-            if (userKey && users[userKey].password === password) {
-                currentUser = { username: userKey, ...users[userKey] };
-                if (userKey.toLowerCase() === "admin") {
+            if (user) {
+                // Login successful
+                currentUser = user;
+                if (user.username.toLowerCase() === "admin") {
                     showAdminDashboard();
                 } else {
                     showUserDetails();
                 }
             } else {
+                // Login failed
                 loginMessage.textContent = "Invalid username or password.";
                 loginMessage.className = "text-danger";
             }
@@ -149,6 +150,7 @@
             document.getElementById("loginUsername").value = "";
             document.getElementById("loginPassword").value = "";
         }
+
 
 
         // Show user details
@@ -180,7 +182,7 @@
             paginationControls.innerHTML = ""; // Clear pagination controls
 
             // Use filteredUsers for displaying results, or all users if no search filter
-            const userEntries = filteredUsers.length > 0 ? filteredUsers : Object.entries(users);
+            const userEntries = filteredUsers.length > 0 ? filteredUsers : users;
             const totalUsers = userEntries.length;
             const totalPages = Math.ceil(totalUsers / usersPerPage);
 
@@ -193,15 +195,15 @@
             const endIndex = Math.min(startIndex + usersPerPage, totalUsers);
 
             for (let i = startIndex; i < endIndex; i++) {
-                const [username, userDetails] = userEntries[i];
+                const user = userEntries[i];
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${i + 1}</td>
-                    <td style="">${username}</td>
-                    <td style="">${userDetails.password}</td>
-                    <td style="text-transform: uppercase;">${userDetails.status}</td>
-                    <td style="text-transform: uppercase;">${userDetails.ikita}</td>
-                    <td style="text-transform: uppercase;">${userDetails.orukoOrisha}</td>
+                    <td style="">${user.username}</td>
+                    <td style="">${user.password}</td>
+                    <td style="text-transform: uppercase;">${user.status}</td>
+                    <td style="text-transform: uppercase;">${user.ikita}</td>
+                    <td style="text-transform: uppercase;">${user.orukoOrisha}</td>
                 `;
                 userTableBody.appendChild(row);
             }
@@ -219,6 +221,7 @@
             }
         }
 
+
         // Handle search functionality
         function handleSearch() {
             const searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
@@ -226,13 +229,13 @@
             if (searchInput === "") {
                 filteredUsers = []; // Clear the filter if the search box is empty
             } else {
-                filteredUsers = Object.entries(users).filter(([username, userDetails]) => {
+                filteredUsers = users.filter(user => {
                     return (
-                        username.toLowerCase().includes(searchInput) ||
-                        userDetails.password.toLowerCase().includes(searchInput) ||
-                        userDetails.status.toLowerCase().includes(searchInput) ||
-                        userDetails.ikita.toLowerCase().includes(searchInput)||
-                        userDetails.orukoOrisha.toLowerCase().includes(searchInput)
+                        user.username.toLowerCase().includes(searchInput) ||
+                        user.password.toLowerCase().includes(searchInput) ||
+                        user.status.toLowerCase().includes(searchInput) ||
+                        user.ikita.toLowerCase().includes(searchInput) ||
+                        user.orukoOrisha.toLowerCase().includes(searchInput)
                     );
                 });
             }
@@ -240,6 +243,7 @@
             currentPage = 1; // Reset to the first page of filtered results
             updateUserTable();
         }
+
 
         // Add a new account
         function addNewAccount(event) {
@@ -249,12 +253,12 @@
             const password = document.getElementById("newPassword").value.trim();
             const status = document.getElementById("newStatus").value.trim();
 
-            if (users[username]) {
+            if (users.some(user => user.username.toLowerCase() === username.toLowerCase())) {
                 alert("Username already exists. Please choose a different username.");
                 return;
             }
 
-            users[username] = { password, status };
+            users.push({ username, password, status });
             alert("Account created successfully!");
 
             document.getElementById("newUsername").value = "";
@@ -263,6 +267,7 @@
 
             updateUserTable();
         }
+
 
         // Logout function
         function logout() {
