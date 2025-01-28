@@ -1106,24 +1106,6 @@
         "status": "irete owonrin, ire isegun, ebo esha",
         "ikita": "eji ogbe, okunbo, ejo, adimu orisa",
         "orukoOrisha":""
-    },
-
-    {
-        "id": 124,
-        "username": "adedeji",
-        "password": "mother",
-        "status": "Osa Idi, Ire Aiku, Adimu Eegun",
-        "ikita": "Osa Oyeku, Ire Aiku, Adimu Eegun",
-        "orukoOrisha":"Test1"
-    },
-
-     {
-        "id": 125,
-        "username": "adedeji",
-        "password": "mother",
-        "status": "Osa Owonrin, Ire Aiku, Adimu Eegun",
-        "ikita": "Osa Ogbe, Ire Aiku, Adimu Eegun",
-        "orukoOrisha":"Test2"
     }
 
 
