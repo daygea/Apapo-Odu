@@ -55,7 +55,7 @@
             <div style="color: white;" id="loginMessage" class="mt-2"></div>
         </div>
 
-        <div style="background-color: black; color: white;" id="profileSelection" class="mt-3"></div>
+        <div id="profileSelection" class="mt-3"></div>
 
         <!-- Logged-In User Section -->
         <div id="userSection" class="hidden">
@@ -152,7 +152,7 @@
                 profileSelection.innerHTML = ""; // Clear any previous options
                 matchingUsers.forEach(user => {
                     const option = document.createElement("button");
-                    option.className = "btn btn-secondary btn-sm my-1";
+                    option.className = "btn btn-danger btn-md my-1";
                     option.textContent = `${user.status} (${user.orukoOrisha})`; // Display details to help user identify
                     option.onclick = () => {
                         currentUser = user;
