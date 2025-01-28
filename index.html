@@ -158,7 +158,7 @@
 
             // Find the user by checking for a case-insensitive username match
             const userEntry = Object.entries(users).find(([key, userDetails]) => {
-                return key.toLowerCase() === username.toLowerCase() && userDetails.password === password;
+                return key.toLowerCase() == username.toLowerCase() && userDetails.password == password;
             });
 
             if (userEntry) {
