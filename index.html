@@ -150,17 +150,16 @@
         //     document.getElementById("loginPassword").value = "";
         // }
 
-        function handleLogin(event) {
+      function handleLogin(event) {
             event.preventDefault();
             const username = document.getElementById("loginUsername").value.trim();
             const password = document.getElementById("loginPassword").value.trim();
             const loginMessage = document.getElementById("loginMessage");
 
-            // Find a user entry with a matching username-password pair
-            const userEntry = Object.entries(users).find(
-                ([key, userDetails]) =>
-                    key.toLowerCase() === username.toLowerCase() && userDetails.password === password
-            );
+            // Find the user by checking for a case-insensitive username match
+            const userEntry = Object.entries(users).find(([key, userDetails]) => {
+                return key.toLowerCase() === username.toLowerCase() && userDetails.password === password;
+            });
 
             if (userEntry) {
                 // Login successful
@@ -176,12 +175,10 @@
                 loginMessage.className = "text-danger";
             }
 
+            // Clear login fields
             document.getElementById("loginUsername").value = "";
             document.getElementById("loginPassword").value = "";
         }
-
-
-
 
         // Show user details
         function showUserDetails() {
