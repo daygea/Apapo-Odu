@@ -58,10 +58,10 @@
         <!-- Logged-In User Section -->
         <div id="userSection" class="hidden">
             <h3>INITIATE DETAILS</h3>
-            <p>NAME: <b><span id="userUsername" style="text-transform: uppercase;"></span> OMO <span id="userPassword" style="text-transform: uppercase;"></span></b></p>
-            <p>ODU IFA: <b><span id="userStatus" style="text-transform: uppercase;"></span></b> </p>
-            <p>IKITA IFA: <b><span id="userIkita" style="text-transform: uppercase;"></span></b></p>
-            <p>ORUKO ORISHA: <b><span id="userOrukoOrisha" style="text-transform: uppercase;"></span></b></p>
+            <p><b>NAME: <span id="userUsername" style="text-transform: uppercase;"></span> OMO <span id="userPassword" style="text-transform: uppercase;"></span></b></p>
+            <p><b>ODU IFA: <span id="userStatus" style="text-transform: uppercase;"></span></b> </p>
+            <p><b>IKITA IFA: <span id="userIkita" style="text-transform: uppercase;"></span></b></p>
+            <p><b>ORUKO ORISHA: <span id="userOrukoOrisha" style="text-transform: uppercase;"></span></b></p>
             <!-- <a class="btn btn-default" target="_blank" href="https://daygea.github.io/Nature/">Click to view the full message here</a><br/><br/> -->
             <button onclick="logout()" class="btn btn-warning">Logout</button>
         </div>
@@ -122,26 +122,56 @@
         });
 
       // Login function
+        // function handleLogin(event) {
+        //     event.preventDefault();
+        //     const username = document.getElementById("loginUsername").value.trim();
+        //     const password = document.getElementById("loginPassword").value.trim();
+        //     const loginMessage = document.getElementById("loginMessage");
+
+        //     // Convert username to lowercase for case-insensitive comparison
+        //     const lowercaseUsername = username.toLowerCase();
+
+        //     // Check if the lowercase username exists in the users object
+        //     const userKey = Object.keys(users).find(key => key.toLowerCase() === lowercaseUsername);
+
+        //     if (userKey && users[userKey].password === password) {
+        //         currentUser = { username: userKey, ...users[userKey] };
+        //         if (userKey.toLowerCase() === "admin") {
+        //             showAdminDashboard();
+        //         } else {
+        //             showUserDetails();
+        //         }
+        //     } else {
+        //         loginMessage.textContent = "Invalid username or password.";
+        //         loginMessage.className = "text-danger";
+        //     }
+
+        //     document.getElementById("loginUsername").value = "";
+        //     document.getElementById("loginPassword").value = "";
+        // }
+
         function handleLogin(event) {
             event.preventDefault();
             const username = document.getElementById("loginUsername").value.trim();
             const password = document.getElementById("loginPassword").value.trim();
             const loginMessage = document.getElementById("loginMessage");
 
-            // Convert username to lowercase for case-insensitive comparison
-            const lowercaseUsername = username.toLowerCase();
+            // Find a user entry with a matching username-password pair
+            const userEntry = Object.entries(users).find(
+                ([key, userDetails]) =>
+                    key.toLowerCase() === username.toLowerCase() && userDetails.password === password
+            );
 
-            // Check if the lowercase username exists in the users object
-            const userKey = Object.keys(users).find(key => key.toLowerCase() === lowercaseUsername);
-
-            if (userKey && users[userKey].password === password) {
-                currentUser = { username: userKey, ...users[userKey] };
-                if (userKey.toLowerCase() === "admin") {
+            if (userEntry) {
+                // Login successful
+                currentUser = { username: userEntry[0], ...userEntry[1] };
+                if (userEntry[0].toLowerCase() === "admin") {
                     showAdminDashboard();
                 } else {
                     showUserDetails();
                 }
             } else {
+                // Login failed
                 loginMessage.textContent = "Invalid username or password.";
                 loginMessage.className = "text-danger";
             }
@@ -149,6 +179,8 @@
             document.getElementById("loginUsername").value = "";
             document.getElementById("loginPassword").value = "";
         }
+
+
 
 
         // Show user details
@@ -249,11 +281,18 @@
             const password = document.getElementById("newPassword").value.trim();
             const status = document.getElementById("newStatus").value.trim();
 
-            if (users[username]) {
-                alert("Username already exists. Please choose a different username.");
+            // Ensure username-password combination is unique
+            const isDuplicate = Object.entries(users).some(
+                ([key, userDetails]) =>
+                    key.toLowerCase() === username.toLowerCase() && userDetails.password === password
+            );
+
+            if (isDuplicate) {
+                alert("This username and password combination already exists. Please use a different one.");
                 return;
             }
 
+            // Add new account
             users[username] = { password, status };
             alert("Account created successfully!");
 
@@ -263,6 +302,7 @@
 
             updateUserTable();
         }
+
 
         // Logout function
         function logout() {
