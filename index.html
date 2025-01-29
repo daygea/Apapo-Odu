@@ -124,6 +124,56 @@
         });
 
       // Login function
+        // function handleLogin(event) {
+        //     event.preventDefault();
+        //     const username = document.getElementById("loginUsername").value.trim();
+        //     const password = document.getElementById("loginPassword").value.trim();
+        //     const loginMessage = document.getElementById("loginMessage");
+
+        //     // Find all users with the matching username and password
+        //     const matchingUsers = users.filter(
+        //         user => user.username.toLowerCase() === username.toLowerCase() && user.password === password
+        //     );
+
+        //     if (matchingUsers.length === 1) {
+        //         // If exactly one match is found, login directly
+        //         currentUser = matchingUsers[0];
+        //         if (currentUser.username.toLowerCase() === "admin") {
+        //             showAdminDashboard();
+        //         } else {
+        //             showUserDetails();
+        //         }
+        //     } else if (matchingUsers.length > 1) {
+        //         // If multiple matches are found, prompt user to choose
+        //         loginMessage.textContent = "Multiple accounts found. Please select your profile.";
+        //         loginMessage.className = "text-warning";
+
+        //         const profileSelection = document.getElementById("profileSelection");
+        //         profileSelection.innerHTML = ""; // Clear any previous options
+        //         matchingUsers.forEach(user => {
+        //             const option = document.createElement("button");
+        //             option.className = "btn btn-danger btn-md my-1";
+        //             option.textContent = `Odu Ifa - ${user.status}, Oruko Orisha - (${user.orukoOrisha})`; // Display details to help user identify
+        //             option.onclick = () => {
+        //                 currentUser = user;
+        //                 if (user.username.toLowerCase() === "admin") {
+        //                     showAdminDashboard();
+        //                 } else {
+        //                     showUserDetails();
+        //                 }
+        //             };
+        //             profileSelection.appendChild(option);
+        //         });
+        //     } else {
+        //         // If no match is found
+        //         loginMessage.textContent = "Invalid username or password.";
+        //         loginMessage.className = "text-danger";
+        //     }
+
+        //     document.getElementById("loginUsername").value = "";
+        //     document.getElementById("loginPassword").value = "";
+        // }
+
         function handleLogin(event) {
             event.preventDefault();
             const username = document.getElementById("loginUsername").value.trim();
@@ -136,7 +186,7 @@
             );
 
             if (matchingUsers.length === 1) {
-                // If exactly one match is found, login directly
+                // If exactly one match is found, log in directly
                 currentUser = matchingUsers[0];
                 if (currentUser.username.toLowerCase() === "admin") {
                     showAdminDashboard();
@@ -150,12 +200,16 @@
 
                 const profileSelection = document.getElementById("profileSelection");
                 profileSelection.innerHTML = ""; // Clear any previous options
+
                 matchingUsers.forEach(user => {
                     const option = document.createElement("button");
-                    option.className = "btn btn-danger btn-md my-1";
-                    option.textContent = `Odu Ifa - ${user.status}, Oruko Orisha - (${user.orukoOrisha})`; // Display details to help user identify
+                    option.className = "btn btn-secondary btn-lg my-1";
+                    option.textContent = `(${user.orukoOrisha}) - ${user.status} `; // Show identifiable details
                     option.onclick = () => {
                         currentUser = user;
+                        profileSelection.innerHTML = ""; // Hide profile selection after choosing
+                        loginMessage.textContent = ""; // Clear any warning messages
+
                         if (user.username.toLowerCase() === "admin") {
                             showAdminDashboard();
                         } else {
