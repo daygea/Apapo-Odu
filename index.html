@@ -203,7 +203,7 @@
 
                 matchingUsers.forEach(user => {
                     const option = document.createElement("button");
-                    option.className = "btn btn-secondary btn-lg my-1";
+                    option.className = "btn btn-warning btn-lg my-1";
                     option.textContent = `(${user.orukoOrisha}) - ${user.status} `; // Show identifiable details
                     option.onclick = () => {
                         currentUser = user;
