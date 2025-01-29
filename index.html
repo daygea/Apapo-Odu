@@ -204,7 +204,7 @@
                 matchingUsers.forEach(user => {
                     const option = document.createElement("button");
                     option.className = "btn btn-warning btn-lg my-1";
-                    option.textContent = `(${user.orukoOrisha}) - ${user.status} `; // Show identifiable details
+                    option.textContent = `${user.orukoOrisha} - ${user.status} `; // Show identifiable details
                     option.onclick = () => {
                         currentUser = user;
                         profileSelection.innerHTML = ""; // Hide profile selection after choosing
@@ -217,6 +217,7 @@
                         }
                     };
                     profileSelection.appendChild(option);
+                    profileSelection.appendChild("<br/>");
                 });
             } else {
                 // If no match is found
